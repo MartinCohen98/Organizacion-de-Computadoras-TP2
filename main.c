@@ -79,12 +79,12 @@ void interpretar_archivo(FILE* archivo) {
 		if (strcmp(buffer, "FLUSH") == 0)
 			init();
 		if (strcmp(buffer, "MR") == 0)
-			printf("%f", get_miss_rate());
+			printf("Miss rate: %f", get_miss_rate());
 		if (strcmp(buffer, "R") == 0) {
 			unsigned int address;
 			resultadoLectura = fscanf(archivo, "%u", &address);
 			if (address < MEMSIZE)
-				printf("%u\n", read_byte(address));
+				printf("Byte leido en la direccion %u: %u\n", address, read_byte(address));
 		}
 		if (strcmp(buffer, "W") == 0) {
 			unsigned int address;
@@ -181,6 +181,7 @@ unsigned char read_byte(unsigned int address) {
 		misses++;
 	}
 	sumar_tiempo();
+	cache[set].via[way].tiempoDesdeLectura = 0;
 	return cache[set].via[way].bloque[offset];
 }
 
